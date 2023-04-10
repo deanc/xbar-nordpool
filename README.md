@@ -1,6 +1,6 @@
 A xbar plugin to show nordpool energy prices for the Finnish market.
 
-![Screenshot](/screenshot.png?raw=true "Screenshot")
+![Screenshot](/screenshot.png "Screenshot")
 
 # Setup
 
@@ -19,8 +19,3 @@ ln -s /path/to/repo/nordpool.30m.js ~/Library/Application Support/xbar/plugins/n
 # Tweak
 
 The threshold is hardcoded to 8c/kWh at the moment. You can edit the file as you see fit.
-
-# Future enhancements and wishes
-
-- Add a submenu "Tomorrow" as the first item and show tomorrow's data
-  if possible to get with the plugin we're pulling the data from.

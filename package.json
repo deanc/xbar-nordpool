@@ -1,0 +1,14 @@
+{
+  "name": "xbar-nordpool",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@sindresorhus/xbar": "^2.1.1",
+    "nordpool": "^5.0.1"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

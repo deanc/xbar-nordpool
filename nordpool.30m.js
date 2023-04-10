@@ -9,43 +9,53 @@ const FG_RED = "\x1b[31m"
 
 const prices = new nordpool.Prices()
 
-const getHourlyPrices = async () => {
-  const rows = (await prices.hourly({ area: "FI", currency: "EUR" })).map(
-    (item) => {
-      const date = new Date(item.date) // automatically in your local timezone
-      const hour = date.getHours().toString().padStart(2, "0").concat(":00")
-      const day = date.getDay()
+const getHourlyPrices = async (target) => {
+  let targetDate = new Date()
+  if (target === "tomorrow") {
+    targetDate = new Date().setDate(targetDate.getDate() + 1)
+  }
 
-      // item.value is the enrgy price in EUR/MWh
-      // convert it to snt/kWh and add Finnish VAT of 24 %
-      const price = Math.round(item.value * 1.24 * 100) / 1000
+  const rows = (
+    await prices.hourly({ area: "FI", currency: "EUR", date: targetDate })
+  ).map((item) => {
+    const date = new Date(item.date) // automatically in your local timezone
+    const hour = date.getHours().toString().padStart(2, "0").concat(":00")
+    const day = date.getDay()
 
-      let color = FG_RED
-      if (price < THRESHOLD / 2) {
-        color = FG_GREEN
-      } else if (price < THRESHOLD) {
-        color = FG_YELLOW
-      }
+    // item.value is the enrgy price in EUR/MWh
+    // convert it to snt/kWh and add Finnish VAT of 24 %
+    const price = Math.round(item.value * 1.24 * 100) / 1000
 
-      return {
-        text: `${date.getDate()}/${date.getMonth()} - ${hour}\t\t${color}${price.toFixed(
-          2
-        )}c | ansi=true`,
-      }
+    let color = FG_RED
+    if (price < THRESHOLD / 2) {
+      color = FG_GREEN
+    } else if (price < THRESHOLD) {
+      color = FG_YELLOW
     }
-  )
+
+    return {
+      text: `${date.getDate()}/${date.getMonth()} - ${hour}\t\t${color}${price.toFixed(
+        2
+      )}c | ansi=true`,
+    }
+  })
   return rows
 }
 
 const printHourlyPrices = async () => {
-  const results = await getHourlyPrices()
+  const today = await getHourlyPrices()
+  const tomorrow = await getHourlyPrices("tomorrow")
   xbar([
     {
       text: "ϟ",
       dropdown: false,
     },
     separator,
-    ...results,
+    ...today,
+    {
+      text: "Tomorrow",
+      submenu: tomorrow,
+    },
   ])
 }
 

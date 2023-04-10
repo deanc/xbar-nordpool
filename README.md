@@ -1,5 +1,7 @@
 A xbar plugin to show nordpool energy prices for the Finnish market.
 
+![Screenshot](/screenshot.png?raw=true "Screenshot")
+
 # Setup
 
 1. Clone the repo

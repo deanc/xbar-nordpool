@@ -43,23 +43,37 @@ const getHourlyPrices = async (target) => {
 }
 
 const printHourlyPrices = async () => {
-  const today = await getHourlyPrices()
-  const tomorrow = await getHourlyPrices("tomorrow")
-  const tomorrowAvailable = tomorrow.length > 0
-  xbar([
-    {
-      text: "ϟ",
-      dropdown: false,
-    },
-    separator,
-    ...today,
-    {
-      text: tomorrowAvailable ? "Tomorrow" : "Tomorrow (n/a)",
-      submenu: tomorrowAvailable
-        ? tomorrow
-        : [{ text: "Data usually available after 15:00" }],
-    },
-  ])
+  try {
+    const today = await getHourlyPrices()
+    const tomorrow = await getHourlyPrices("tomorrow")
+    const tomorrowAvailable = tomorrow.length > 0
+    xbar([
+      {
+        text: "ϟ",
+        dropdown: false,
+      },
+      separator,
+      ...today,
+      {
+        text: tomorrowAvailable ? "Tomorrow" : "Tomorrow (n/a)",
+        submenu: tomorrowAvailable
+          ? tomorrow
+          : [{ text: "Data usually available after 15:00" }],
+      },
+    ])
+  } catch (e) {
+    xbar([
+      {
+        text: "ϟ",
+        color: "red",
+        dropdown: false,
+      },
+      separator,
+      {
+        text: `Error: ${e.message}`,
+      },
+    ])
+  }
 }
 
 printHourlyPrices()

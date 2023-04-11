@@ -45,6 +45,7 @@ const getHourlyPrices = async (target) => {
 const printHourlyPrices = async () => {
   const today = await getHourlyPrices()
   const tomorrow = await getHourlyPrices("tomorrow")
+  const tomorrowAvailable = tomorrow.length > 0
   xbar([
     {
       text: "ϟ",
@@ -53,8 +54,10 @@ const printHourlyPrices = async () => {
     separator,
     ...today,
     {
-      text: "Tomorrow",
-      submenu: tomorrow,
+      text: tomorrowAvailable ? "Tomorrow" : "Tomorrow (n/a)",
+      submenu: tomorrowAvailable
+        ? tomorrow
+        : [{ text: "Data usually available after 15:00" }],
     },
   ])
 }

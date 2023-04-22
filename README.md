@@ -1,4 +1,4 @@
-A xbar plugin to show nordpool energy prices for the Finnish market.
+A xbar plugin to show nordpool energy prices.
 
 ![Screenshot](/screenshot_1.png "Screenshot")
 
@@ -16,6 +16,7 @@ ln -s /path/to/repo/nordpool.30m.js ~/Library/Application Support/xbar/plugins/n
 
 5. If you want to run it more or less often just change the `30m` to `1d` for example in the symlink to run it once a day.
 
-# Tweak
+# Settings
 
-The threshold is hardcoded to 8c/kWh at the moment. You can edit the file as you see fit.
+- `THRESHOLD` The value under which the energy price is considered affordable. (Default: 8c/kWh)
+- `COUNTRY` The country code for the market. (Default: FI)

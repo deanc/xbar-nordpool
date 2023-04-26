@@ -42,7 +42,9 @@ const COUNTRIES = {
 
 const prices = new nordpool.Prices()
 
-const calculatePrice = (price) => Math.round(price * 1.24 * 100) / 1000
+const AFTER_APRIL_30_2023 = Date.now() > new Date("April 30, 2023 23:59:59")
+const VAT_RATE = AFTER_APRIL_30_2023 ? 1.24 : 1.1 // will be 1.24 later on
+const calculatePrice = (price) => Math.round(price * VAT_RATE * 100) / 1000
 
 const mapToXbarRow = (item) => {
   const date = new Date(item.date) // automatically in your local timezone
